@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PromotionService } from 'src/promotion/promotion.service';
+import { DbService } from 'src/db/db.service';
 
 @Injectable()
-export class ProductService {}
+export class ProductService {
+  constructor(private readonly dbService: DbService) {}
+
+  findById(id: string): Promise<IProduct | undefined> {
+    return this.dbService.products.getProduct(id);
+  }
+}
