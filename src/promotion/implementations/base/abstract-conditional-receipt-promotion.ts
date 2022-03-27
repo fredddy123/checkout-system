@@ -1,3 +1,4 @@
+import { IPromotion } from 'src/promotion/types/promotion';
 import { arrToHashMap, ObjHashMap } from 'src/utils';
 import { AbstractPromotion } from './abstract-promotion';
 

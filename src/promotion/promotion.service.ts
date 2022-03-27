@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
+import { IProduct } from 'src/product/types/product';
+import { IProductWithAppliedPromotions } from 'src/product/types/product-with-applied-promotions';
 import {
   OneOfPromotionImplementationsType,
   promotionConditionToImplementationMap,
 } from './implementations';
 import { AbstractPromotion } from './implementations/base/abstract-promotion';
+import { IPromotion } from './types/promotion';
+import { PromotionConditionEnum } from './types/promotion-condition';
 
 type PromotionNameToImplementationInstaceMap = {
   [key in PromotionConditionEnum]?: OneOfPromotionImplementationsType;

@@ -6,16 +6,20 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { ProductService } from 'src/product/product.service';
+import { IProduct } from 'src/product/types/product';
 import { PromotionService } from 'src/promotion/promotion.service';
 import { IFormedResponse } from 'src/types/formed-response';
 import { CheckoutService } from './checkout.service';
 import { CheckoutDTO } from './dto/checkout.dto';
-import { ProductDTO } from './dto/product.dto';
 import { ScanProductDto } from './dto/scan-product.dto';
+import { ICheckout } from './types/checkout';
 
 @Controller('checkouts')
+@UseGuards(AuthGuard)
 export class CheckoutController {
   constructor(
     private readonly checkoutService: CheckoutService,
@@ -48,10 +52,7 @@ export class CheckoutController {
     const reponseCheckout: CheckoutDTO = {
       ...checkout,
       scannedProducts: await this.promotionService.applyPromotions(products),
-      appliedPromotions: [],
     };
-
-    // reponseCheckout.appliedPromotions = this.promotionService.applyPromotions(products);
 
     return {
       status: HttpStatus.OK,
@@ -60,8 +61,8 @@ export class CheckoutController {
   }
 
   @Post()
-  async initiateCheckout() {
-    const checkout = this.checkoutService.createCheckout();
+  async initiateCheckout(): Promise<string> {
+    const checkout = await this.checkoutService.createCheckout();
 
     return checkout.id;
   }

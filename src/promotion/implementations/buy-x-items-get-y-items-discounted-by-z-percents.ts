@@ -1,9 +1,7 @@
+import { IProductWithAppliedPromotions } from 'src/product/types/product-with-applied-promotions';
 import { AbstractConditionalReceiptPromotion } from './base/abstract-conditional-receipt-promotion';
-import { PromotionTypes } from './base/promotion-types';
 
 export class BuyXItemsGetYItemsDiscountedByZPercents extends AbstractConditionalReceiptPromotion {
-  static type: PromotionTypes = PromotionTypes.CONDITIONAL_RECEIPT_PROMOTION;
-
   protected applyPromotion(
     products: IProductWithAppliedPromotions[],
   ): IProductWithAppliedPromotions[] {
@@ -29,7 +27,8 @@ export class BuyXItemsGetYItemsDiscountedByZPercents extends AbstractConditional
 
       return {
         ...product,
-        finalPrice: product.basePrice - product.basePrice * this.dicountValue,
+        finalPrice:
+          product.basePrice - product.basePrice * 0.01 * this.dicountValue,
       };
     });
   }

@@ -1,3 +1,4 @@
+import { PromotionConditionEnum } from '../types/promotion-condition';
 import { BuyXItemsGetYItemsDiscountedByZEuros } from './buy-x-items-get-y-items-discounted-by-z-euros';
 import { BuyXItemsGetYItemsDiscountedByZPercents } from './buy-x-items-get-y-items-discounted-by-z-percents';
 import { UnconditionalPercentageDiscountOnProduct } from './unconditional-percentage-discount-on-product';
@@ -26,5 +27,4 @@ export const promotionConditionToImplementationMap = {
     undefined,
   [PromotionConditionEnum.BUY_FOR_AT_LEAST_X_EUROS_GET_DISCOUNT_BY_Y_PERCENTS]:
     undefined,
-  [PromotionConditionEnum.CUSTOMLY_SCRIPTED_PROMOTION]: undefined,
 };

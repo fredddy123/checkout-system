@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
+import { IProduct } from './types/product';
 
 @Injectable()
 export class ProductService {

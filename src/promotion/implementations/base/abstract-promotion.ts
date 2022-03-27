@@ -1,3 +1,6 @@
+import { IProduct } from 'src/product/types/product';
+import { IProductWithAppliedPromotions } from 'src/product/types/product-with-applied-promotions';
+
 export abstract class AbstractPromotion {
   protected abstract applyPromotion(
     productsWithAppliedPromotions: IProductWithAppliedPromotions[],

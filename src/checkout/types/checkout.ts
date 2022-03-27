@@ -1,8 +1,7 @@
-interface ICheckout {
+import { StatusEnum } from './status';
+
+export interface ICheckout {
   id: string;
   status: StatusEnum;
-  // scannedProducts: IProduct[];
   scannedProducts: string[];
-  // appliedPromotions: IPromotion[];
-  appliedPromotions: string[];
 }

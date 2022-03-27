@@ -1,5 +1,4 @@
-const enum StatusEnum {
-  READY = 'READY',
-  WAITING_FOR_ADULT_PRODUCT_APPROVE = 'WAITING_FOR_ADULT_PRODUCT_APPROVE',
+export const enum StatusEnum {
+  IN_PROGRESS = 'IN_PROGRESS',
   FINISHED = 'FINISHED',
 }

@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
-// import { PromotionConditionEnum } from 'src/promotion/types/promotion-condition';
+import { ICheckout } from 'src/checkout/types/checkout';
+import { IProduct } from 'src/product/types/product';
+import { IPromotion } from 'src/promotion/types/promotion';
+import { PromotionConditionEnum } from 'src/promotion/types/promotion-condition';
 
-class ProductsModel {
+class ProductsORM {
   productsRecords: IProduct[] = [
     {
       title: 'pizza',
@@ -74,72 +77,20 @@ class ProductsModel {
   }
 }
 
-class PromotionsModel {
+class PromotionsORM {
   promotionsRecords: IPromotion[] = [
     {
       id: '1',
       condition: PromotionConditionEnum.UNCONDITIONAL_PERCENTAGE_DISCOUNT,
-      productsIds: ['id1'],
+      necessaryProducts: ['id1', 'id2'],
       dicountValue: 10,
     },
-    // {
-    //   id: '2',
-    //   condition: PromotionConditionEnum.UNCONDITIONAL_PRICE_DISCOUNT,
-    //   products: ['id2'],
-    //   dicountValue: 5,
-    // },
-    // {
-    //   id: '3',
-    //   condition:
-    //     PromotionConditionEnum.BUY_X_ITEMS_GET_Y_ITEMS_DISCOUNTED_BY_Z_EUROS,
-    //   products: ['id3'],
-    //   itemsToBuyQuantity: 3,
-    //   itemsToGetDiscounted: 2,
-    //   dicountValue: 7,
-    // },
-    // {
-    //   id: '4',
-    //   condition:
-    //     PromotionConditionEnum.BUY_X_ITEMS_GET_Y_ITEMS_DISCOUNTED_BY_Z_PERCENTS,
-    //   products: ['id4'],
-    //   itemsToBuyQuantity: 3,
-    //   itemsToGetDiscounted: 2,
-    //   dicountValue: 50,
-    // },
-    // {
-    //   id: '5',
-    //   condition:
-    //     PromotionConditionEnum.BUY_FOR_AT_LEAST_X_EUROS_GET_Y_ITEMS_DISCOUNTED_BY_Z_EUROS,
-    //   products: ['id5'],
-    //   minimalTotalPice: 100,
-    //   itemsToGetDiscounted: 2,
-    //   dicountValue: 9,
-    // },
-    // {
-    //   id: '6',
-    //   condition:
-    //     PromotionConditionEnum.BUY_FOR_AT_LEAST_X_EUROS_GET_Y_ITEMS_DISCOUNTED_BY_Z_PERCENTS,
-    //   products: ['id6'],
-    //   minimalTotalPice: 150,
-    //   itemsToGetDiscounted: 2,
-    //   dicountValue: 12,
-    // },
-    // {
-    //   id: '7',
-    //   condition:
-    //     PromotionConditionEnum.BUY_FOR_AT_LEAST_X_EUROS_GET_DISCOUNT_BY_Y_EUROS,
-    //   products: ['id7'],
-    //   minimalTotalPice: 200,
-    //   dicountValue: 25,
-    // },
-    // {
-    //   id: '8',
-    //   condition:
-    //     PromotionConditionEnum.BUY_FOR_AT_LEAST_X_EUROS_GET_DISCOUNT_BY_Y_PERCENTS,
-    //   products: ['id8'],
-    //   minimalTotalPice: 250,
-    //   dicountValue: 5,
-    // },
+    {
+      id: '2',
+      condition: PromotionConditionEnum.UNCONDITIONAL_PRICE_DISCOUNT,
+      necessaryProducts: ['id3'],
+      dicountValue: 12,
+    },
   ];
 
   async getAllPromotions(): Promise<IPromotion[]> {
@@ -161,7 +112,7 @@ class PromotionsModel {
   }
 }
 
-class CheckoutsModel {
+class CheckoutsORM {
   private checkoutsRecords: ICheckout[] = [];
 
   async getCheckout(id: string): Promise<ICheckout | undefined> {
@@ -195,7 +146,7 @@ class CheckoutsModel {
 
 @Injectable()
 export class DbService {
-  products: ProductsModel = new ProductsModel();
-  promotions: PromotionsModel = new PromotionsModel();
-  checkouts: CheckoutsModel = new CheckoutsModel();
+  products: ProductsORM = new ProductsORM();
+  promotions: PromotionsORM = new PromotionsORM();
+  checkouts: CheckoutsORM = new CheckoutsORM();
 }

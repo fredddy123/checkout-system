@@ -1,9 +1,7 @@
+import { IProductWithAppliedPromotions } from 'src/product/types/product-with-applied-promotions';
 import { AbstractConditionalReceiptPromotion } from './base/abstract-conditional-receipt-promotion';
-import { PromotionTypes } from './base/promotion-types';
 
 export class BuyXItemsGetYItemsDiscountedByZEuros extends AbstractConditionalReceiptPromotion {
-  static type: PromotionTypes = PromotionTypes.CONDITIONAL_RECEIPT_PROMOTION;
-
   protected applyPromotion(
     products: IProductWithAppliedPromotions[],
   ): IProductWithAppliedPromotions[] {

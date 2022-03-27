@@ -1,7 +1,5 @@
-interface IProductWithAppliedPromotions {
-  id: string;
-  externalId: string;
-  title: string;
-  basePrice: number;
+import { IProduct } from './product';
+
+export interface IProductWithAppliedPromotions extends IProduct {
   finalPrice: number;
 }

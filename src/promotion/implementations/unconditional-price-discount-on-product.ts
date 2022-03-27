@@ -1,9 +1,8 @@
+import { IProduct } from 'src/product/types/product';
+import { IProductWithAppliedPromotions } from 'src/product/types/product-with-applied-promotions';
 import { AbstractUnconditionalProductPromotion } from './base/abstract-unconditional-product-promotion';
-import { PromotionTypes } from './base/promotion-types';
 
 export class UnconditionalPriceDiscount extends AbstractUnconditionalProductPromotion {
-  static type: PromotionTypes = PromotionTypes.CONDITIONAL_RECEIPT_PROMOTION;
-
   protected applyPromotionForOneProduct(
     product: IProduct,
   ): IProductWithAppliedPromotions {
