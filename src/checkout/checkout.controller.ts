@@ -66,10 +66,15 @@ export class CheckoutController {
   }
 
   @Post()
-  async initiateCheckout(): Promise<string> {
-    const checkout = await this.checkoutService.createCheckout();
+  async initiateCheckout(): Promise<IFormedResponse<{ id: string }>> {
+    const id = await this.checkoutService.createCheckout();
 
-    return checkout.id;
+    return {
+      status: HttpStatus.OK,
+      data: {
+        id,
+      },
+    };
   }
 
   @Get()

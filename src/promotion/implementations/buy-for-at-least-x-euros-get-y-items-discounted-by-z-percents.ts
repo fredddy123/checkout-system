@@ -1,8 +1,8 @@
 import { CheckoutService } from 'src/checkout/checkout.service';
 import { IReceiptWithAppliedPromotions } from '../types/check-with-applied-promotions';
-import { AbstractConditionalPriceReceiptPromotion } from './base/abstract-conditional-price-receipt-promotion';
+import { AbstractConditionalProductsPriceReceiptPromotion } from './base/abstract-conditional-products-price-receipt-promotion';
 
-export class BuyForAtLeastXEurosGetYItemsDiscountedByZPercents extends AbstractConditionalPriceReceiptPromotion {
+export class BuyForAtLeastXEurosGetYItemsDiscountedByZPercents extends AbstractConditionalProductsPriceReceiptPromotion {
   public apply(
     receiptWithAppliedPromotions: IReceiptWithAppliedPromotions,
   ): IReceiptWithAppliedPromotions {

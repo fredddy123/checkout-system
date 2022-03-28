@@ -16,7 +16,7 @@ export class CheckoutService {
     }, 0);
   }
 
-  async createCheckout(): Promise<ICheckout> {
+  async createCheckout(): Promise<string> {
     const newCheckout: ICheckout = {
       id: `${Math.random()}`.slice(2),
       status: StatusEnum.IN_PROGRESS,
@@ -25,7 +25,7 @@ export class CheckoutService {
 
     await this.dbService.checkouts.createCheckout(newCheckout);
 
-    return newCheckout;
+    return newCheckout.id;
   }
 
   getCheckout(id: string): Promise<ICheckout | undefined> {

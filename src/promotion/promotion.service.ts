@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CheckoutService } from 'src/checkout/checkout.service';
 import { DbService } from 'src/db/db.service';
 import { IProduct } from 'src/product/types/product';
+import { CreatePromotionDto } from './dto/create-promotion.dto';
 import {
   OneOfPromotionImplementationsType,
   promotionConditionToImplementationMap,
@@ -76,5 +77,20 @@ export class PromotionService {
     });
 
     return receiptWithAppliedPromotions;
+  }
+
+  getAllPromotions(): Promise<IPromotion[]> {
+    return this.dbService.promotions.getAllPromotions();
+  }
+
+  async createPromotion(promotion: CreatePromotionDto): Promise<string> {
+    const id = `${Math.random()}`.slice(2);
+
+    await this.dbService.promotions.createPromotion({
+      ...promotion,
+      id,
+    });
+
+    return id;
   }
 }

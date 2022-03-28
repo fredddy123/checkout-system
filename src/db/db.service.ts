@@ -2,71 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ICheckout } from 'src/checkout/types/checkout';
 import { IProduct } from 'src/product/types/product';
 import { IPromotion } from 'src/promotion/types/promotion';
-import { PromotionConditionEnum } from 'src/promotion/types/promotion-condition';
 
 class ProductsORM {
-  productsRecords: IProduct[] = [
-    {
-      title: 'apple',
-      id: 'id1',
-      externalId: 'externalId1',
-      basePrice: 10,
-    },
-    {
-      title: 'milk',
-      id: 'id2',
-      externalId: 'externalId2',
-      basePrice: 20,
-    },
-    {
-      title: 'bread',
-      id: 'id3',
-      externalId: 'externalId3',
-      basePrice: 30,
-    },
-    {
-      title: 'pizza',
-      id: 'id4',
-      externalId: 'externalId4',
-      basePrice: 40,
-    },
-    {
-      title: 'beer',
-      id: 'id5',
-      externalId: 'externalId5',
-      basePrice: 50,
-    },
-    {
-      title: 'chocolate',
-      id: 'id6',
-      externalId: 'externalId6',
-      basePrice: 60,
-    },
-    {
-      title: 'sausage',
-      id: 'id7',
-      externalId: 'externalId7',
-      basePrice: 70,
-    },
-    {
-      title: 'tomato',
-      id: 'id8',
-      externalId: 'externalId8',
-      basePrice: 80,
-    },
-    {
-      title: 'potato',
-      id: 'id9',
-      externalId: 'externalId9',
-      basePrice: 90,
-    },
-    {
-      title: 'soda',
-      id: 'id10',
-      externalId: 'externalId10',
-      basePrice: 100,
-    },
-  ];
+  productsRecords: IProduct[] = [];
 
   async getAllProducts(): Promise<IProduct[]> {
     return this.productsRecords;
@@ -75,44 +13,14 @@ class ProductsORM {
   async getProduct(id: string): Promise<IProduct | undefined> {
     return this.productsRecords.find((product) => product.id === id);
   }
+
+  async addProduct(product: IProduct): Promise<void> {
+    this.productsRecords.push(product);
+  }
 }
 
 class PromotionsORM {
-  promotionsRecords: IPromotion[] = [
-    {
-      id: '1',
-      condition:
-        PromotionConditionEnum.UNCONDITIONAL_PERCENTAGE_DISCOUNT_ON_PRODUCT,
-      necessaryProducts: ['id1', 'id2'],
-      dicountValue: 10,
-    },
-    {
-      id: '2',
-      condition: PromotionConditionEnum.UNCONDITIONAL_PRICE_DISCOUNT_ON_PRODUCT,
-      necessaryProducts: ['id3', 'id1'],
-      dicountValue: 2,
-    },
-    {
-      id: '3',
-      condition:
-        PromotionConditionEnum.BUY_AT_LEAST_X_ITEMS_GET_Y_ITEMS_DISCOUNTED_TO_Z_EUROS,
-      necessaryProducts: ['id4'],
-      necessaryProductsQuantity: 2,
-      productsToDiscount: ['id4'],
-      productsToDiscountQuantity: -1,
-      dicountValue: 3.99,
-    },
-    // {
-    //   id: '3',
-    //   condition:
-    //     PromotionConditionEnum.UNCONDITIONAL_PERCENTAGE_DISCOUNT_ON_RECEIPT,
-    //   necessaryProducts: ['id4'],
-    //   necessaryProductsQuantity: 2,
-    //   productsToDiscount: ['id4'],
-    //   productsToDiscountQuantity: -1,
-    //   dicountValue: 3.99,
-    // },
-  ];
+  promotionsRecords: IPromotion[] = [];
 
   async getAllPromotions(): Promise<IPromotion[]> {
     return this.promotionsRecords;
@@ -134,7 +42,7 @@ class PromotionsORM {
 }
 
 class CheckoutsORM {
-  private checkoutsRecords: ICheckout[] = [];
+  checkoutsRecords: ICheckout[] = [];
 
   async getCheckout(id: string): Promise<ICheckout | undefined> {
     return this.checkoutsRecords.find((checkout) => checkout.id === id);
