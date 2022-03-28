@@ -1,22 +1,13 @@
 import { IProduct } from 'src/product/types/product';
 import { IProductWithAppliedPromotions } from 'src/product/types/product-with-applied-promotions';
+import { IReceiptWithAppliedPromotions } from 'src/promotion/types/check-with-applied-promotions';
 
 export abstract class AbstractPromotion {
-  protected abstract applyPromotion(
-    productsWithAppliedPromotions: IProductWithAppliedPromotions[],
-  ): IProductWithAppliedPromotions[];
+  protected promotionId: string;
 
-  public apply(
-    productsRawOrWithAppliedPromotions:
-      | IProduct[]
-      | IProductWithAppliedPromotions[],
-  ): IProductWithAppliedPromotions[] {
-    return this.applyPromotion(
-      AbstractPromotion.ensureAppliedPromotionInterfaceConsisteny(
-        productsRawOrWithAppliedPromotions,
-      ),
-    );
-  }
+  public abstract apply(
+    receiptWithAppliedPromotions: IReceiptWithAppliedPromotions,
+  ): IReceiptWithAppliedPromotions;
 
   static ensureAppliedPromotionInterfaceConsisteny(
     products: IProduct[] | IProductWithAppliedPromotions[],

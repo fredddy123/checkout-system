@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -43,20 +44,24 @@ export class CheckoutController {
       const foundProduct = await this.productService.findById(productId);
 
       if (!foundProduct) {
-        throw new Error('scanned product does not exist');
+        throw new Error(`scanned product with id ${productId} does not exist`);
       }
 
       products.push(foundProduct);
     }
 
-    const reponseCheckout: CheckoutDTO = {
-      ...checkout,
-      scannedProducts: await this.promotionService.applyPromotions(products),
-    };
+    const receiptWithAppliedPromotions =
+      await this.promotionService.applyPromotions(products);
 
     return {
       status: HttpStatus.OK,
-      data: reponseCheckout,
+      data: {
+        ...checkout,
+        scannedProducts: receiptWithAppliedPromotions.products,
+        baseTotal: receiptWithAppliedPromotions.baseTotal,
+        finalTotal: receiptWithAppliedPromotions.finalTotal,
+        appliedPromotions: receiptWithAppliedPromotions.appliedPromotions,
+      },
     };
   }
 
@@ -79,14 +84,37 @@ export class CheckoutController {
 
   @Post(':id/scan')
   async scan(@Param('id') id: string, @Body() scanProductDTO: ScanProductDto) {
-    const result = await this.checkoutService.scan(
-      id,
-      scanProductDTO.productId,
-    );
+    await this.checkoutService.scan(id, scanProductDTO.productId);
 
     return {
       status: HttpStatus.OK,
-      data: result,
+    };
+  }
+
+  @Post(':id/finish')
+  async finish(@Param('id') id: string) {
+    await this.checkoutService.finish(id);
+
+    return {
+      status: HttpStatus.OK,
+    };
+  }
+
+  @Post(':id/payment')
+  async startPayment(@Param('id') id: string) {
+    await this.checkoutService.switchToPaymentStatus(id);
+
+    return {
+      status: HttpStatus.OK,
+    };
+  }
+
+  @Delete(':id/scan/:productId')
+  async remove(@Param('id') id: string, @Param('productId') productId: string) {
+    await this.checkoutService.remove(id, productId);
+
+    return {
+      status: HttpStatus.OK,
     };
   }
 }

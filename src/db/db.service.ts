@@ -7,7 +7,7 @@ import { PromotionConditionEnum } from 'src/promotion/types/promotion-condition'
 class ProductsORM {
   productsRecords: IProduct[] = [
     {
-      title: 'pizza',
+      title: 'apple',
       id: 'id1',
       externalId: 'externalId1',
       basePrice: 10,
@@ -25,7 +25,7 @@ class ProductsORM {
       basePrice: 30,
     },
     {
-      title: 'apple',
+      title: 'pizza',
       id: 'id4',
       externalId: 'externalId4',
       basePrice: 40,
@@ -81,16 +81,37 @@ class PromotionsORM {
   promotionsRecords: IPromotion[] = [
     {
       id: '1',
-      condition: PromotionConditionEnum.UNCONDITIONAL_PERCENTAGE_DISCOUNT,
+      condition:
+        PromotionConditionEnum.UNCONDITIONAL_PERCENTAGE_DISCOUNT_ON_PRODUCT,
       necessaryProducts: ['id1', 'id2'],
       dicountValue: 10,
     },
     {
       id: '2',
-      condition: PromotionConditionEnum.UNCONDITIONAL_PRICE_DISCOUNT,
-      necessaryProducts: ['id3'],
-      dicountValue: 12,
+      condition: PromotionConditionEnum.UNCONDITIONAL_PRICE_DISCOUNT_ON_PRODUCT,
+      necessaryProducts: ['id3', 'id1'],
+      dicountValue: 2,
     },
+    {
+      id: '3',
+      condition:
+        PromotionConditionEnum.BUY_AT_LEAST_X_ITEMS_GET_Y_ITEMS_DISCOUNTED_TO_Z_EUROS,
+      necessaryProducts: ['id4'],
+      necessaryProductsQuantity: 2,
+      productsToDiscount: ['id4'],
+      productsToDiscountQuantity: -1,
+      dicountValue: 3.99,
+    },
+    // {
+    //   id: '3',
+    //   condition:
+    //     PromotionConditionEnum.UNCONDITIONAL_PERCENTAGE_DISCOUNT_ON_RECEIPT,
+    //   necessaryProducts: ['id4'],
+    //   necessaryProductsQuantity: 2,
+    //   productsToDiscount: ['id4'],
+    //   productsToDiscountQuantity: -1,
+    //   dicountValue: 3.99,
+    // },
   ];
 
   async getAllPromotions(): Promise<IPromotion[]> {
@@ -137,10 +158,32 @@ class CheckoutsORM {
     const checkout = this.checkoutsRecords.find((rec) => rec.id === checkoutId);
 
     if (!checkout) {
-      throw new Error('no checkout found');
+      throw new Error(`no checkout with id ${checkoutId} found`);
     }
 
     checkout.scannedProducts.push(productId);
+  }
+
+  async removeProduct(checkoutId: string, productId: string): Promise<void> {
+    const checkout = this.checkoutsRecords.find((rec) => rec.id === checkoutId);
+
+    if (!checkout) {
+      throw new Error(`no checkout with id ${checkoutId} found`);
+    }
+
+    let removedOne = false;
+
+    checkout.scannedProducts = checkout.scannedProducts.filter(
+      (scannedProductId) => {
+        if (scannedProductId === productId && !removedOne) {
+          removedOne = true;
+
+          return false;
+        }
+
+        return true;
+      },
+    );
   }
 }
 

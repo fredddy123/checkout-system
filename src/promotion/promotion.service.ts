@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { CheckoutService } from 'src/checkout/checkout.service';
 import { DbService } from 'src/db/db.service';
 import { IProduct } from 'src/product/types/product';
-import { IProductWithAppliedPromotions } from 'src/product/types/product-with-applied-promotions';
 import {
   OneOfPromotionImplementationsType,
   promotionConditionToImplementationMap,
 } from './implementations';
 import { AbstractPromotion } from './implementations/base/abstract-promotion';
+import { IReceiptWithAppliedPromotions } from './types/check-with-applied-promotions';
 import { IPromotion } from './types/promotion';
 import { PromotionConditionEnum } from './types/promotion-condition';
 
@@ -43,11 +44,23 @@ export class PromotionService {
 
   async applyPromotions(
     products: IProduct[],
-  ): Promise<IProductWithAppliedPromotions[]> {
+  ): Promise<IReceiptWithAppliedPromotions> {
     const allPromotions = await this.dbService.promotions.getAllPromotions();
 
-    let productsWithAppliedPromotions =
+    const productsWithAppliedPromotions =
       AbstractPromotion.ensureAppliedPromotionInterfaceConsisteny(products);
+
+    const initialCheckBaseTotal = CheckoutService.calculateReceipt(
+      productsWithAppliedPromotions,
+    );
+
+    let receiptWithAppliedPromotions: IReceiptWithAppliedPromotions = {
+      baseTotal: initialCheckBaseTotal,
+      finalTotal: initialCheckBaseTotal,
+      products:
+        AbstractPromotion.ensureAppliedPromotionInterfaceConsisteny(products),
+      appliedPromotions: [],
+    };
 
     allPromotions.forEach((promotion) => {
       const promotionInstance = this.getPromotionInstance(promotion);
@@ -57,11 +70,11 @@ export class PromotionService {
         return;
       }
 
-      productsWithAppliedPromotions = promotionInstance.apply(
-        productsWithAppliedPromotions,
+      receiptWithAppliedPromotions = promotionInstance.apply(
+        receiptWithAppliedPromotions,
       );
     });
 
-    return productsWithAppliedPromotions;
+    return receiptWithAppliedPromotions;
   }
 }

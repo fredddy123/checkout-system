@@ -8,4 +8,5 @@ export interface IPromotion {
   productsToDiscount?: string[];
   necessaryProductsQuantity?: number;
   productsToDiscountQuantity?: number;
+  applicableTotal?: number;
 }
