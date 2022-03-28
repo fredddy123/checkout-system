@@ -13,7 +13,7 @@ All the promotion conditions supported: https://github.com/fredddy123/checkout-s
 
 Tests of some of the use cases with promotions: https://github.com/fredddy123/checkout-system/blob/main/src/promotion/promotion.service.spec.ts
 
-New generic promotion conditions should be added there https://github.com/fredddy123/checkout-system/tree/main/src/promotion/implementations as classes that implement one of the abstract classes from ./base directory 
+New implementations of generic promotion conditions should be added there https://github.com/fredddy123/checkout-system/tree/main/src/promotion/implementations as classes that extend one of the abstract classes from ./base directory.
 
 ## Installation
 
