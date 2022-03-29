@@ -8,10 +8,7 @@ export abstract class AbstractConditionalPriceReceiptPromotion extends AbstractP
   constructor(promotion: IPromotion) {
     super();
 
-    if (
-      promotion.applicableTotal === undefined ||
-      promotion.necessaryProducts === undefined
-    ) {
+    if (promotion.applicableTotal === undefined) {
       throw new Error('wrong promotion type applied for the class');
     }
 

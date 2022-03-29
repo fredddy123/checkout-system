@@ -48,7 +48,6 @@ describe('PromotionService', () => {
       const promotionId1 = await service.createPromotion({
         condition:
           PromotionConditionEnum.BUY_FOR_AT_LEAST_X_EUROS_GET_RECEIPT_DISCOUNTED_BY_Y_PERCENTS,
-        necessaryProducts: [productId1],
         applicableTotal: 30, // euro
         dicountValue: 10, // %
       });
